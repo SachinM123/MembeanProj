@@ -10,14 +10,14 @@ import os # never used in current iteration
 
 temp = 0.5 # temperature not implemented [it sucked ass when i tried to change it]
 
-# Screen width for scaling x-coordinates
+# Screen width for scaling x-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
 x = 2560
 # Time to wait between actions
 wait_time = 7
 key = 'AIzaSyC0FGSzkUbgjJ_3Tjqh_WyoawIvM5u63XE'
 
-# Screen height for scaling y-coordinates
 y = 1600
+# Screen height for scaling y-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
 
 def load_words_from_file(filepath="words.txt"):
     """Loads words from a text file into a list."""
