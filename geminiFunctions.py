@@ -3,10 +3,10 @@ from PIL import ImageGrab
 import time
 import pytesseract
 import pyautogui
-import pyperclip
+import pyperclip # never used in current iteration
 from PIL import Image
 import google.generativeai as genai
-import os
+import os # never used in current iteration
 
 temp = 0.5 # temperature not implemented [it sucked ass when i tried to change it]
 
