@@ -14,7 +14,7 @@ temp = 0.5 # temperature not implemented [it sucked ass when i tried to change i
 x = 2560
 # Time to wait between actions
 wait_time = 7
-key = 'AIzaSyC0FGSzkUbgjJ_3Tjqh_WyoawIvM5u63XE'
+key = ''
 
 y = 1600
 # Screen height for scaling y-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
@@ -140,3 +140,4 @@ def myFunction():
             pyautogui.typewrite(answer)
             print("GEMINI RESPONSE: " + newString)
             time.sleep(wait_time)
+
