@@ -15,7 +15,7 @@ obviously install python 3 (https://www.python.org/downloads/)
 
 only important files are run.py and geminifunctions.py
 
-if any blanchet person gets their hands on this, know that all of membean has been done by myself because i actually enjoy learning (plus you gotta be a little impressed, no?)
+if any blanchet person gets their hands on this, know that all of membean has been done by myself because i actually enjoy learning 
 
 all code written by sachin miskelly (no vibe code)
 
