@@ -19,4 +19,4 @@ if any blanchet person gets their hands on this, know that all of membean has be
 
 all code written by sachin miskelly (no vibe code)
 
-yes my api key is in plaintext stfu
+email me for api key
