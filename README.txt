@@ -10,6 +10,7 @@ program uses many python libraries that need installation via pip
 - pip install pyperclip
 - pip install google.generativeai
 - pip install tkinter
+- pip install numpy
 
 obviously install python 3 (https://www.python.org/downloads/)
 
