@@ -1,25 +1,32 @@
 import numpy as np
 from PIL import ImageGrab
 import time
+import random
 import pytesseract
 import pyautogui
-import pyperclip # never used in current iteration
+import pyperclip
 from PIL import Image
-import google.generativeai as genai
-import os # never used in current iteration
+from google import genai
+from google.genai import types
+import os
+import re
 
-temp = 0.5 # temperature not implemented [it sucked ass when i tried to change it]
+temp = 0.5
 
 # Screen width for scaling x-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
 x = 2560
 # Time to wait between actions
 wait_time = 7
-key = '' # email me for api key
+AIModel = "gemini-3-flash-preview"
 
 y = 1600
 # Screen height for scaling y-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
+key = 'AIzaSyCXRG2eXfTzvzSYlBX3cgr3fY1j-mf3-7s'
 
-def load_words_from_file(filepath="words.txt"):
+# Configure the Gemini API
+client = genai.Client(api_key=key)
+
+def load_words_from_file(filepath="C:/Users/Sachi/OneDrive/Desktop/Programs/Python/membeanProgram/gemini-programs/sachinwords.txt"):
     """Loads words from a text file into a list."""
     try:
         with open(filepath, 'r') as f:
@@ -59,27 +66,65 @@ def take_screenshot(left, upper, right, lower, num):
 
 def sendScreenshot(image_path, possible_words_list, prompta):
     """Sends a screenshot to Gemini and gets a response."""
-    genai.configure(api_key=key)
-    model = genai.GenerativeModel(
-        "gemini-1.5-flash"
-    )
-    
-
+    # Read image file
     with open(image_path, "rb") as image_file:
         image_bytes = image_file.read()
 
+    # Prepare the prompt
     prompt = f"{prompta} Get it right clanker"
 
-    response = model.generate_content(
-        [
-            {
-                "mime_type": "image/jpeg",
-                "data": image_bytes
-            },
-            prompt
+    # Generate content with image and text using the correct API format
+    response = client.models.generate_content(
+        model=AIModel,
+        contents=[
+            prompt,
+            types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")
         ]
     )
     return response.text
+
+def get_answer_from_response(text: str, marker: str = "My answer is:") -> str:
+    """Extracts and returns the answer following the given marker in `text`.
+
+    Behavior:
+    - Case-insensitive search for `marker`.
+    - Returns the first line after the marker, trimmed of surrounding whitespace and quotes.
+    - If the marker isn't found, returns an empty string.
+
+    Examples:
+    >>> get_answer_from_response("My answer is: cat")
+    'cat'
+    >>> get_answer_from_response("something\nMy answer is: \"dog\"\nmore")
+    'dog'
+    >>> get_answer_from_response("No answer here")
+    ''
+    """
+    if not text:
+        return ""
+
+    lower = text.lower()
+    marker_lower = marker.lower()
+    idx = lower.find(marker_lower)
+    if idx == -1:
+        return ""
+
+    # Get substring after the marker
+    start = idx + len(marker_lower)
+    remainder = text[start:]
+
+    # Take only the first line (answers are typically single-line)
+    first_line = remainder.splitlines()[0] if remainder.splitlines() else remainder
+
+    # Trim whitespace and surrounding quotes
+    ans = first_line.strip()
+    # Remove wrapping quotes if present
+    if (ans.startswith('"') and ans.endswith('"')) or (ans.startswith("'") and ans.endswith("'")):
+        ans = ans[1:-1].strip()
+
+    # Remove trailing punctuation that is unlikely part of the answer
+    ans = ans.rstrip(' .,!?:;')
+
+    return ans
 
     
 def myFunction():
@@ -90,6 +135,9 @@ def myFunction():
 
         if "Word Theater" in text or "Word Constellation" in text or "Word Ingredient" in text:
             # 'study question'
+            if(random.randint(1,2) == 2):
+                pyautogui.hotkey('ctrl','r')
+            time.sleep(5)
             pyautogui.typewrite("abcd")
             pyautogui.click(int(1900 * x / 2560), int(323 * y / 1600)) # Next button
             time.sleep(wait_time)
@@ -99,9 +147,10 @@ def myFunction():
             time.sleep(wait_time)
         elif "image?" in text:
             screenshot2_path = take_screenshot(int(10 * x / 2560), int(200 * y / 1600), int(1520 * x / 2560), int(2530 * y / 1600), 2)
-            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question by entering a word that makes sense with the hint word and the image, the word will start with the same letter as the letter before the blanks. No spaces or astericks, just the word.") # Pass the loaded list
+            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question by entering a word that makes sense with the hint word and the image, the word will start with the same letter as the letter before the blanks. Format your final answer as: My answer is: <answer>'") # Pass the loaded list
             print(response2 + "\n\n\n\n\n\n\n\n")
             answer = str(response2)
+            answer = get_answer_from_response(answer)
             newString = answer.lstrip()
             if len(answer) > 1:
                 newString = answer[1:]
@@ -116,9 +165,10 @@ def myFunction():
             pyautogui.click(int(1316 * x / 2560), int(1130 * y / 1600))
         elif "wordmap" in text:
             screenshot2_path = take_screenshot(int(10 * x / 2560), int(200 * y / 1600), int(1520 * x / 2560), int(2530 * y / 1600), 2)
-            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question in the format of: A, B, C, or D by using the wordmap of words that are related to the answer word. Since the question is multiple choice, you should answer with ONLY A, B, C, or D") # Pass the loaded list
+            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question in the format of: A, B, C, or D by using the wordmap of words that are related to the answer word. Format your final answer as: 'My answer is: <answer>'") # Pass the loaded list
             print(response2 + "\n\n\n\n\n\n\n\n")
             answer = str(response2)
+            answer = get_answer_from_response(answer)
             newString = answer.lstrip()
             if len(answer) > 1:
                 newString = answer[1:]
@@ -130,9 +180,10 @@ def myFunction():
             pyautogui.click(int(1400 * x / 2560), int(868 * y / 1600))
         else:
             screenshot2_path = take_screenshot(int(10 * x / 2560), int(200 * y / 1600), int(1520 * x / 2560), int(2530 * y / 1600), 2)
-            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question in the format of: A, B, C, or D OR a single word, there should be no spaces or asterisks in your response. If the question is not multiple choice, try to answer by completing the missing word. If the question is multiple choice, answer with only a single letter of the answer") # Pass the loaded list
+            response2 = sendScreenshot(screenshot2_path, possible_words, "Answer the question in the format of: A, B, C, or D OR a single word. If the question is not multiple choice, try to answer by completing the missing word. If the question is multiple choice, answer with only a single letter of the answer. Format your final answer as: 'My answer is: <answer>'") # Pass the loaded list
             print(response2 + "\n\n\n\n\n\n\n\n")
             answer = str(response2)
+            answer = get_answer_from_response(answer)
             newString = answer.lstrip()
             if len(answer) > 1:
                 newString = answer[1:]
