@@ -1,0 +1,6 @@
+pillow
+pytesseract
+pyautogui
+pyperclip
+google-generativeai
+numpy

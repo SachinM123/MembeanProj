@@ -16,12 +16,12 @@ temp = 0.5
 # Screen width for scaling x-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
 x = 2560
 # Time to wait between actions
-wait_time = 5
+wait_time = 7
 AIModel = "gemini-3-flash-preview"
 
 y = 1600
 # Screen height for scaling y-coordinates (YOU NEED TO CHANGE THIS BASED ON YOUR SCREEN RESOLUTION)
-key = 'AIzaSyCXRG2eXfTzvzSYlBX3cgr3fY1j-mf3-7s'
+key = 'YOUR-API-KEY'
 
 # Configure the Gemini API
 client = genai.Client(api_key=key)
@@ -124,6 +124,8 @@ def myFunction():
             time.sleep(5)
             pyautogui.typewrite("abcd")
             pyautogui.click(int(1900 * x / 2560), int(323 * y / 1600)) # Next button
+            time.sleep(2)
+            pyautogui.typewrite("ffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
             time.sleep(wait_time + random.uniform(1,2))
         elif "Spell the word" in text:
             pyautogui.click(int(1263 * x / 2560), int(597 * y / 1600)) # Click on the text box

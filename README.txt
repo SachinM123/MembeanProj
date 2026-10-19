@@ -1,23 +1,11 @@
-Membean autocomplete using autoclickers + google gemini API
+steps to use:
+1. download python from here (https://www.python.org/downloads/latest/python3.14/)
+2. download zip from this github
+3. unzip it
+4. obtain google api key (or ask me for mine) and insert the API key on line 24 of geminiFunctions.py
+5. navigate to a terminal with the file location of where you unzipped the file as the root (if you don't understand what this means, ask chatGPT)
+6. from there, run 'pip install -r requirements.txt'
+7. open a membean tab
+8. run 'run.py' using your python interpretor that you used to install requirements.txt
+9. click Click on the tk interface
 
-based on 100% chrome gui scale and my screen resolution (2560 * 1600)
-if you want to adapt to your computer you should multiple all screen coordinates by [your screen res X coordinate]/ 2560 , [your screen res Y coordinate] / 1600
-program uses many python libraries that need installation via pip
-- pip install pillow
-- pip install time (also try pip install TIME-python)
-- pip install pytesseract
-- pip install pyautogui
-- pip install pyperclip
-- pip install google.generativeai
-- pip install tkinter
-- pip install numpy
-
-obviously install python 3 (https://www.python.org/downloads/)
-
-only important files are run.py and geminifunctions.py
-
-if any blanchet person gets their hands on this, know that all of membean has been done by myself because i actually enjoy learning 
-
-all code written by sachin miskelly (no vibe code)
-
-email me for api key
