@@ -1,6 +1,6 @@
 steps to use:
 1. download python from here (https://www.python.org/downloads/latest/python3.14/)
-2. download zip from this github
+2. download zip from this github (green code button, then download zip)
 3. unzip it
 4. obtain google api key (or ask me for mine) and insert the API key on line 24 of geminiFunctions.py
 5. navigate to a terminal with the file location of where you unzipped the file as the root (if you don't understand what this means, ask chatGPT)
